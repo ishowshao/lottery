@@ -26,6 +26,9 @@
           <el-form-item label="抽奖按钮字体大小">
             <el-input-number v-model="buttonFontSize"></el-input-number>
           </el-form-item>
+          <el-form-item label="人员名单">
+            <el-input v-model="names" type="textarea"></el-input>
+          </el-form-item>
           <el-form-item label="">
             <el-button @click="save">保存</el-button>
           </el-form-item>
@@ -42,13 +45,14 @@
 export default {
   data() {
     return {
-      count: 0,
+      count: 1,
       repeat: false,
       backgroundImage: '',
       buttonText: '开始',
       buttonText2: '结束',
       buttonImage: '',
       buttonFontSize: 16,
+      names: '',
     };
   },
   methods: {
