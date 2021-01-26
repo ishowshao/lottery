@@ -8,6 +8,9 @@
           <el-form-item label="本轮抽取">
             <el-input-number v-model="count"></el-input-number>位
           </el-form-item>
+          <el-form-item label="天选之人">
+            <el-input v-model="chosen"></el-input>
+          </el-form-item>
           <el-form-item label="允许重复中奖">
             <el-switch v-model="repeat"></el-switch>
           </el-form-item>
@@ -46,6 +49,7 @@ export default {
   data() {
     return {
       count: 1,
+      chosen: '',
       repeat: false,
       backgroundImage: '',
       buttonText: '开始',
