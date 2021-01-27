@@ -108,7 +108,19 @@ export default {
         clearInterval(this.interval);
         this.interval = null;
         this.select = this.randomSelect();
+        this.saveSelect();
       }
+    },
+    saveSelect() {
+      const selection = JSON.parse(localStorage.getItem('selection'));
+      const date = new Date(); 
+      selection.push({
+        initText: this.initText,
+        time: date.getTime(),
+        select: this.select,
+        valid: true,
+      });
+      localStorage.setItem('selection', JSON.stringify(selection));
     },
     onSelectClick() {
       if (!this.interval) {
@@ -131,17 +143,25 @@ export default {
       Object.assign(this.$data, config);
 
       const action = config.action;
-      console.log('action', action);
-      if (action === 'init') {
-        this.init = true;
-      } else if (action === 'start') {
-        this.start();
-      } else if (action === 'stop') {
-        this.stop();
+      if (action) {
+        console.log('action', action);
+        if (action === 'init') {
+          this.init = true;
+        } else if (action === 'start') {
+          this.start();
+        } else if (action === 'stop') {
+          this.stop();
+        }
+        this.resetAction();
       }
-      this.resetAction();
     });
   },
+  created() {
+    let selection = localStorage.getItem('selection');
+    if (!selection) {
+      localStorage.setItem('selection', JSON.stringify([]));
+    }
+  }
 };
 </script>
 <style scoped>

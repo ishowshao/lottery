@@ -73,8 +73,26 @@
           </el-form-item>
         </el-form>
       </div>
-      <div style="flex: 1">
+      <div style="flex: 1; padding-left: 20px;">
         <div>中奖信息</div>
+          <el-table :data="selection" style="width: 100%">
+            <el-table-column type="index" width="50"></el-table-column>
+            <el-table-column prop="time" label="时间" width="180">
+              <template slot-scope="scope">{{new Date(scope.row.time).toLocaleString()}}</template>
+            </el-table-column>
+            <el-table-column prop="initText" label="文案" width="180"></el-table-column>
+            <el-table-column prop="select" label="中奖人"></el-table-column>
+            <el-table-column prop="valid" label="状态" width="100">
+              <template slot-scope="scope">
+                <span>{{scope.row.valid ? '有效' : '已作废'}}</span>
+              </template>
+            </el-table-column>
+            <el-table-column label="操作" width="100">
+              <template slot-scope="scope">
+                <el-button @click="invalid(scope.row)" type="text" size="small">作废</el-button>
+              </template>
+            </el-table-column>
+          </el-table>
       </div>
     </div>
 
@@ -104,14 +122,16 @@ export default {
       winnerTranslateX: 0,
       winnerTranslateY: 0,
       action: null,
-      timestamp: 0,
+      selection: [],
     };
   },
   methods: {
     save() {
       const date = new Date();
-      this.timestamp = date.toLocaleString();
-      localStorage.setItem('config', JSON.stringify(this.$data));
+      const config = JSON.parse(JSON.stringify(this.$data));
+      config.timestamp = date.toLocaleString();
+      delete config.selection;
+      localStorage.setItem('config', JSON.stringify(config));
     },
     init() {
       this.action = 'init';
@@ -127,11 +147,22 @@ export default {
       this.action = 'stop';
       this.save();
       this.action = null;
+    },
+    invalid(row) {
+      row.valid = false;
+      localStorage.setItem('selection', JSON.stringify(this.selection));
     }
   },
   mounted() {
     const config = JSON.parse(localStorage.getItem('config') || '{}');
     Object.assign(this.$data, config);
+  },
+  created() {
+    this.selection = JSON.parse(localStorage.getItem('selection'));
+    window.addEventListener('storage', () => {
+      console.log('receive message');
+      this.selection = JSON.parse(localStorage.getItem('selection'));
+    });
   }
 };
 </script>
