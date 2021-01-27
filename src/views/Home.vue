@@ -15,7 +15,7 @@ export default {
       select: [],
       init: true,
 
-      count: 1,
+      count: 0,
       names: '',
       chosen: '',
       repeat: false,
@@ -39,20 +39,55 @@ export default {
     };
   },
   methods: {
-    randomSelect() {
-      const names = this.names.split(',');
-      const result = [];
-      if (this.count > names.length) {
-        alert('目标中奖人数大于名单人数');
-        return;
+    getNames() {
+      const names = this.names.split(',').map(name => name.trim());
+      if (this.repeat) {
+        return names;
       }
+      // 去重
+      return names;
+    },
+    getChosen() {
+      const names = this.chosen.split(',').map(name => name.trim());
+      if (this.repeat) {
+        return names;
+      }
+      // 去重
+      return names;
+    },
+    roll() {
+      const names = this.getNames();
+      const chosen = this.getChosen();
+
+      const all = Array.from(new Set([...names, ...chosen]));
+
+      const result = [];
+      while (result.length < this.count) {
+        const select = all[Math.floor(Math.random() * all.length)];
+        if (result.indexOf(select) === -1) {
+          result.push(select);
+        }
+      }
+      return result;
+    },
+    randomSelect() {
+      const names = this.getNames();
+      const chosen = this.getChosen();
+
+      const result = [];
+
+      if (chosen.length > 0) {
+        result.push(chosen[Math.floor(Math.random() * chosen.length)]);
+      }
+
       while (result.length < this.count) {
         const select = names[Math.floor(Math.random() * names.length)];
         if (result.indexOf(select) === -1) {
           result.push(select);
         }
       }
-      return result;
+
+      return result.sort(() => Math.random() - 0.5).sort(() => Math.random() - 0.5);
     },
     resetAction() {
       const config = JSON.parse(localStorage.getItem('config'));
@@ -62,9 +97,9 @@ export default {
     start() {
       if (!this.interval && this.init) {
         this.init = false;
-        this.select = this.randomSelect();
+        this.select = this.roll();
         this.interval = setInterval(() => {
-          this.select = this.randomSelect();
+          this.select = this.roll();
         }, 100);
       }
     },
@@ -72,6 +107,7 @@ export default {
       if (this.interval) {
         clearInterval(this.interval);
         this.interval = null;
+        this.select = this.randomSelect();
       }
     },
     onSelectClick() {

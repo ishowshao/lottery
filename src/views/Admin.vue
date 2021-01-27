@@ -84,7 +84,7 @@
 export default {
   data() {
     return {
-      count: 1,
+      count: 0,
       names: '',
       chosen: '',
       repeat: false,
