@@ -39,20 +39,30 @@ export default {
     };
   },
   methods: {
+    getWinners() {
+      const selection = JSON.parse(localStorage.getItem('selection'));
+      const winners = new Set();
+      selection.forEach(item => {
+        if (item.valid) {
+          item.select.forEach(name => winners.add(name));
+        }
+      });
+      return Array.from(winners);
+    },
     getNames() {
-      const names = this.names.split(',').map(name => name.trim());
-      if (this.repeat) {
-        return names;
+      let names = this.names.split(',').map(name => name.trim());
+      if (!this.repeat) {
+        const winners = this.getWinners();
+        names = names.filter(name => !winners.includes(name));
       }
-      // 去重
       return names;
     },
     getChosen() {
-      const names = this.chosen.split(',').map(name => name.trim());
-      if (this.repeat) {
-        return names;
+      let names = this.chosen.split(',').map(name => name.trim());
+      if (!this.repeat) {
+        const winners = this.getWinners();
+        names = names.filter(name => !winners.includes(name));
       }
-      // 去重
       return names;
     },
     roll() {
@@ -61,6 +71,10 @@ export default {
 
       const all = Array.from(new Set([...names, ...chosen]));
 
+      if (all.length < this.count) {
+        throw '可中奖人数已不足抽取人数';
+      }
+      
       const result = [];
       while (result.length < this.count) {
         const select = all[Math.floor(Math.random() * all.length)];
@@ -96,11 +110,16 @@ export default {
     },
     start() {
       if (!this.interval && this.init) {
-        this.init = false;
-        this.select = this.roll();
-        this.interval = setInterval(() => {
+        try {
+          this.init = false;
           this.select = this.roll();
-        }, 100);
+          this.interval = setInterval(() => {
+            this.select = this.roll();
+          }, 100);
+        } catch (e) {
+          alert(e);
+          this.init = true;
+        }
       }
     },
     stop() {
@@ -155,6 +174,7 @@ export default {
         this.resetAction();
       }
     });
+    this.getWinners();
   },
   created() {
     let selection = localStorage.getItem('selection');
