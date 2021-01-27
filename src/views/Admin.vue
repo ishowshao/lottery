@@ -8,6 +8,9 @@
           <el-form-item label="本轮抽取">
             <el-input-number v-model="count"></el-input-number>位
           </el-form-item>
+          <el-form-item label="人员名单">
+            <el-input v-model="names" type="textarea"></el-input>
+          </el-form-item>
           <el-form-item label="天选之人">
             <el-input v-model="chosen"></el-input>
           </el-form-item>
@@ -29,8 +32,32 @@
           <el-form-item label="抽奖按钮字体大小">
             <el-input-number v-model="buttonFontSize"></el-input-number>
           </el-form-item>
-          <el-form-item label="人员名单">
-            <el-input v-model="names" type="textarea"></el-input>
+          <el-form-item label="抽奖按钮字体颜色">
+            <el-color-picker v-model="buttonColor"></el-color-picker>
+          </el-form-item>
+          <el-form-item label="抽奖按钮宽度">
+            <el-input-number v-model="buttonWidth"></el-input-number>
+          </el-form-item>
+          <el-form-item label="抽奖按钮高度">
+            <el-input-number v-model="buttonHeight"></el-input-number>
+          </el-form-item>
+          <el-form-item label="抽奖按钮偏移X">
+            <el-input-number v-model="buttonTranslateX"></el-input-number>
+          </el-form-item>
+          <el-form-item label="抽奖按钮偏移Y">
+            <el-input-number v-model="buttonTranslateY"></el-input-number>
+          </el-form-item>
+          <el-form-item label="中奖人员字体大小">
+            <el-input-number v-model="winnerFontSize"></el-input-number>
+          </el-form-item>
+          <el-form-item label="中奖人员字体颜色">
+            <el-color-picker v-model="winnerColor"></el-color-picker>
+          </el-form-item>
+          <el-form-item label="中奖人员偏移X">
+            <el-input-number v-model="winnerTranslateX"></el-input-number>
+          </el-form-item>
+          <el-form-item label="中奖人员偏移Y">
+            <el-input-number v-model="winnerTranslateY"></el-input-number>
           </el-form-item>
           <el-form-item label="">
             <el-button @click="save">保存</el-button>
@@ -49,6 +76,7 @@ export default {
   data() {
     return {
       count: 1,
+      names: '',
       chosen: '',
       repeat: false,
       backgroundImage: '',
@@ -56,12 +84,19 @@ export default {
       buttonText2: '结束',
       buttonImage: '',
       buttonFontSize: 16,
-      names: '',
+      buttonColor: '#000000',
+      buttonWidth: 80,
+      buttonHeight: 60,
+      buttonTranslateX: 0,
+      buttonTranslateY: 0,
+      winnerFontSize: 40,
+      winnerColor: '#000000',
+      winnerTranslateX: 0,
+      winnerTranslateY: 0,
     };
   },
   methods: {
     save() {
-      console.log(JSON.stringify(this.$data))
       localStorage.setItem('config', JSON.stringify(this.$data));
     }
   },

@@ -1,27 +1,37 @@
 <template>
   <div class="home" :style="{'background-image': `url(${backgroundImage})`}">
-    <div class="winners">
+    <div class="winner" :style="{'font-size': `${winnerFontSize}px`, color: `${winnerColor}`, transform: `translate(${winnerTranslateX}px,${winnerTranslateY}px)`}">
       <div v-for="(name, index) in select" :key="index">{{ name }}</div>
     </div>
-    <div>
-      <div @click="onSelectClick" class="button" :style="{'background-image': `url(${buttonImage})`, 'font-size': `${buttonFontSize}px`}">{{buttonText}}</div>
-    </div>
+    <div @click="onSelectClick" class="button" :style="{'background-image': `url(${buttonImage})`, 'font-size': `${buttonFontSize}px`, transform: `translate(${buttonTranslateX}px,${buttonTranslateY}px)`, width: `${buttonWidth}px`, height: `${buttonHeight}px`, 'line-height': `${buttonHeight}px`}">{{buttonText}}</div>
   </div>
 </template>
 
 <script>
 export default {
-  name: "Home",
   data() {
     return {
       select: ['???', '???'],
-      count: 0,
+
+      count: 1,
+      names: '',
+      chosen: '',
       repeat: false,
       backgroundImage: '',
       buttonText: '开始',
+      buttonText2: '结束',
       buttonImage: '',
       buttonFontSize: 16,
-      names: '',
+      buttonColor: '#000000',
+      buttonWidth: 80,
+      buttonHeight: 60,
+      buttonTranslateX: 0,
+      buttonTranslateY: 0,
+      winnerFontSize: 40,
+      winnerColor: '#000000',
+      winnerTranslateX: 0,
+      winnerTranslateY: 0,
+
       interval: null,
     };
   },
@@ -77,18 +87,25 @@ export default {
 </script>
 <style scoped>
 .home {
+  display: flex;
   width: 100vw;
   height: 100vh;
   background-size: cover;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
-.winners {
+.winner {
   display: flex;
 }
-.winners > div {
+.winner > div {
   margin: 10px;
 }
 .button {
-  position: absolute;
+  background-repeat: no-repeat;
   background-size: cover;
+  overflow: hidden;
+  text-align: center;
+  cursor: pointer;
 }
 </style>
