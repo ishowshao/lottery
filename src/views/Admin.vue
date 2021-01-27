@@ -6,7 +6,13 @@
         <div>设置</div>
         <el-form size="small" label-width="150px">
           <el-form-item label="本轮抽取">
-            <el-input-number v-model="count"></el-input-number>位
+            <el-input-number v-model="count"></el-input-number>&nbsp;位&nbsp;
+            <el-button @click="save">保存</el-button>
+            <el-button @click="init">开始新一轮</el-button>
+          </el-form-item>
+          <el-form-item label="控制抽奖">
+            <el-button @click="start">开始</el-button>
+            <el-button @click="stop">停</el-button>
           </el-form-item>
           <el-form-item label="人员名单">
             <el-input v-model="names" type="textarea"></el-input>
@@ -16,6 +22,9 @@
           </el-form-item>
           <el-form-item label="允许重复中奖">
             <el-switch v-model="repeat"></el-switch>
+          </el-form-item>
+          <el-form-item label="初始文案">
+            <el-input v-model="initText"></el-input>
           </el-form-item>
           <el-form-item label="页面背景图">
             <el-input v-model="backgroundImage"></el-input>
@@ -79,6 +88,7 @@ export default {
       names: '',
       chosen: '',
       repeat: false,
+      initText: '',
       backgroundImage: '',
       buttonText: '开始',
       buttonText2: '结束',
@@ -93,11 +103,30 @@ export default {
       winnerColor: '#000000',
       winnerTranslateX: 0,
       winnerTranslateY: 0,
+      action: null,
+      timestamp: 0,
     };
   },
   methods: {
     save() {
+      const date = new Date();
+      this.timestamp = date.toLocaleString();
       localStorage.setItem('config', JSON.stringify(this.$data));
+    },
+    init() {
+      this.action = 'init';
+      this.save();
+      this.action = null;
+    },
+    start() {
+      this.action = 'start';
+      this.save();
+      this.action = null;
+    },
+    stop() {
+      this.action = 'stop';
+      this.save();
+      this.action = null;
     }
   },
   mounted() {

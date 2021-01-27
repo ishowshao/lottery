@@ -1,7 +1,8 @@
 <template>
   <div class="home" :style="{'background-image': `url(${backgroundImage})`}">
     <div class="winner" :style="{'font-size': `${winnerFontSize}px`, color: `${winnerColor}`, transform: `translate(${winnerTranslateX}px,${winnerTranslateY}px)`}">
-      <div v-for="(name, index) in select" :key="index">{{ name }}</div>
+      <div v-if="init">{{initText}}</div>
+      <div v-else v-for="(name, index) in select" :key="index">{{ name }}</div>
     </div>
     <div @click="onSelectClick" class="button" :style="{'background-image': `url(${buttonImage})`, 'font-size': `${buttonFontSize}px`, transform: `translate(${buttonTranslateX}px,${buttonTranslateY}px)`, width: `${buttonWidth}px`, height: `${buttonHeight}px`, 'line-height': `${buttonHeight}px`}">{{buttonText}}</div>
   </div>
@@ -11,12 +12,14 @@
 export default {
   data() {
     return {
-      select: ['???', '???'],
+      select: [],
+      init: true,
 
       count: 1,
       names: '',
       chosen: '',
       repeat: false,
+      initText: '',
       backgroundImage: '',
       buttonText: '开始',
       buttonText2: '结束',
@@ -51,8 +54,15 @@ export default {
       }
       return result;
     },
+    resetAction() {
+      const config = JSON.parse(localStorage.getItem('config'));
+      config.action = null;
+      localStorage.setItem('config', JSON.stringify(config));
+    },
     start() {
-      if (!this.interval) {
+      if (!this.interval && this.init) {
+        this.init = false;
+        this.select = this.randomSelect();
         this.interval = setInterval(() => {
           this.select = this.randomSelect();
         }, 100);
@@ -73,14 +83,27 @@ export default {
     }
   },
   mounted() {
-    const config = JSON.parse(localStorage.getItem('config')) || {};
+    let config = {};
+    if (localStorage.getItem('config')) {
+      config = JSON.parse(localStorage.getItem('config'));
+    }
     console.log(config);
     Object.assign(this.$data, config);
     window.addEventListener('storage', () => {
-      // When local storage changes, dump the list to
-      // the console.
-      const config = JSON.parse(localStorage.getItem('config')) || {};
+      console.log('receive message');
+      const config = JSON.parse(localStorage.getItem('config'));
       Object.assign(this.$data, config);
+
+      const action = config.action;
+      console.log('action', action);
+      if (action === 'init') {
+        this.init = true;
+      } else if (action === 'start') {
+        this.start();
+      } else if (action === 'stop') {
+        this.stop();
+      }
+      this.resetAction();
     });
   },
 };
