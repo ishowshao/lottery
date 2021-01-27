@@ -81,7 +81,9 @@
               <template slot-scope="scope">{{new Date(scope.row.time).toLocaleString()}}</template>
             </el-table-column>
             <el-table-column prop="initText" label="文案" width="180"></el-table-column>
-            <el-table-column prop="select" label="中奖人"></el-table-column>
+            <el-table-column prop="select" label="中奖人">
+              <template slot-scope="scope">{{scope.row.select.join(',')}}</template>
+            </el-table-column>
             <el-table-column prop="valid" label="状态" width="100">
               <template slot-scope="scope">
                 <span>{{scope.row.valid ? '有效' : '已作废'}}</span>
