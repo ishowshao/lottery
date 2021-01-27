@@ -4,7 +4,7 @@
       <div v-if="init">{{initText}}</div>
       <div v-else v-for="(name, index) in select" :key="index">{{ name }}</div>
     </div>
-    <div @click="onSelectClick" class="button" :style="{'background-image': `url(${buttonImage})`, 'font-size': `${buttonFontSize}px`, transform: `translate(${buttonTranslateX}px,${buttonTranslateY}px)`, width: `${buttonWidth}px`, height: `${buttonHeight}px`, 'line-height': `${buttonHeight}px`}">{{buttonText}}</div>
+    <div @click="onSelectClick" class="button" :style="{'background-image': `url(${buttonImage})`, 'font-size': `${buttonFontSize}px`, transform: `translate(${buttonTranslateX}px,${buttonTranslateY}px)`, width: `${buttonWidth}px`, height: `${buttonHeight}px`, 'line-height': `${buttonHeight}px`}">{{init ? buttonText : buttonText2}}</div>
   </div>
 </template>
 
@@ -74,7 +74,7 @@ export default {
       if (all.length < this.count) {
         throw '可中奖人数已不足抽取人数';
       }
-      
+
       const result = [];
       while (result.length < this.count) {
         const select = all[Math.floor(Math.random() * all.length)];
