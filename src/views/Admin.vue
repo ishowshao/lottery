@@ -26,6 +26,9 @@
           <el-form-item label="初始文案">
             <el-input v-model="initText"></el-input>
           </el-form-item>
+          <el-form-item label="初始文案字体大小">
+            <el-input-number v-model="initTextFontSize"></el-input-number>
+          </el-form-item>
           <el-form-item label="页面背景图">
             <el-input v-model="backgroundImage"></el-input>
           </el-form-item>
@@ -109,6 +112,7 @@ export default {
       chosen: '',
       repeat: false,
       initText: '',
+      initTextFontSize: 100,
       backgroundImage: '',
       buttonText: '开始',
       buttonText2: '结束',

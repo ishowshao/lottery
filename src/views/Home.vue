@@ -1,7 +1,7 @@
 <template>
   <div class="home" :style="{'background-image': `url(${backgroundImage})`}">
     <div class="winner" :style="{'font-size': `${winnerFontSize}px`, color: `${winnerColor}`, transform: `translate(${winnerTranslateX}px,${winnerTranslateY}px)`}">
-      <div v-if="init">{{initText}}</div>
+      <div v-if="init" :style="{'font-size': `${initTextFontSize}px`}">{{initText}}</div>
       <div v-else v-for="(name, index) in select" :key="index">{{ name }}</div>
     </div>
     <div @click="onSelectClick" class="button" :style="{'background-image': `url(${buttonImage})`, 'font-size': `${buttonFontSize}px`, transform: `translate(${buttonTranslateX}px,${buttonTranslateY}px)`, width: `${buttonWidth}px`, height: `${buttonHeight}px`, 'line-height': `${buttonHeight}px`}">{{init ? buttonText : buttonText2}}</div>
@@ -20,6 +20,7 @@ export default {
       chosen: '',
       repeat: false,
       initText: '',
+      initTextFontSize: 100,
       backgroundImage: '',
       buttonText: '开始',
       buttonText2: '结束',
