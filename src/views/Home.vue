@@ -1,6 +1,6 @@
 <template>
   <div class="home" :style="{'background-image': `url(${backgroundImage})`}">
-    <div class="init" v-if="init" :style="{'font-size': `${initTextFontSize}px`, color: `${winnerColor}`}">{{initText}}</div>
+    <div v-if="init" class="init" :style="{'font-size': `${initTextFontSize}px`, color: `${winnerColor}`}">{{initText}}</div>
     <div v-if="!init" class="winner" :style="{'font-size': `${winnerFontSize}px`, color: `${winnerColor}`, transform: `translate(${winnerTranslateX}px,${winnerTranslateY}px)`}">
       <div v-for="(name, index) in select" :key="index">{{ name }}</div>
     </div>
