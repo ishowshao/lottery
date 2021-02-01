@@ -1,8 +1,9 @@
 <template>
   <div class="home" :style="{'background-image': `url(${backgroundImage})`}">
-    <div v-if="init" class="init" :style="{'font-size': `${initTextFontSize}px`, color: `${winnerColor}`}" v-html="initText"></div>
+    <div v-if="!init" class="init-small" :style="{color: `${winnerColor}`}">{{initText.replace(/\\n/g, '')}}</div>
+    <div v-if="init" class="init" :style="{'font-size': `${initTextFontSize}px`, color: `${winnerColor}`}" v-html="initText.replace(/\\n/g, '<br>')"></div>
     <div v-if="!init" class="winner" :style="{'font-size': `${winnerFontSize}px`, color: `${winnerColor}`, transform: `translate(${winnerTranslateX}px,${winnerTranslateY}px)`}">
-      <div v-for="(name, index) in select" :key="index">{{ name }}</div>
+      <div v-for="(name, index) in select" :key="index">{{name}}</div>
     </div>
     <div @click="onSelectClick" class="button" :style="{'background-image': `url(${buttonImage})`, 'font-size': `${buttonFontSize}px`, transform: `translate(${buttonTranslateX}px,${buttonTranslateY}px)`, width: `${buttonWidth}px`, height: `${buttonHeight}px`, 'line-height': `${buttonHeight}px`}">{{init ? buttonText : buttonText2}}</div>
   </div>
@@ -190,6 +191,7 @@ export default {
   display: flex;
   width: 100vw;
   height: 100vh;
+  overflow: hidden;
   background-size: cover;
   justify-content: center;
   align-items: center;
@@ -200,9 +202,11 @@ export default {
   max-width: 70vw;
   text-align: center;
   flex-wrap: wrap;
+  /* font-family: monospace; */
+  justify-content: center;
 }
 .winner > div {
-  margin: 10px;
+  margin: 20px;
 }
 .init {
   max-width: 70vw;
@@ -214,5 +218,11 @@ export default {
   overflow: hidden;
   text-align: center;
   cursor: pointer;
+}
+.init-small {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translate(-50%);
 }
 </style>
