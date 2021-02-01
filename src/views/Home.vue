@@ -206,6 +206,7 @@ export default {
 }
 .init {
   max-width: 70vw;
+  text-align: center;
 }
 .button {
   background-repeat: no-repeat;
