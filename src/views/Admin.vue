@@ -164,6 +164,10 @@ export default {
     Object.assign(this.$data, config);
   },
   created() {
+    let selection = localStorage.getItem('selection');
+    if (!selection) {
+      localStorage.setItem('selection', JSON.stringify([]));
+    }
     this.selection = JSON.parse(localStorage.getItem('selection'));
     window.addEventListener('storage', () => {
       console.log('receive message');

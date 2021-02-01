@@ -1,8 +1,8 @@
 <template>
   <div class="home" :style="{'background-image': `url(${backgroundImage})`}">
-    <div class="winner" :style="{'font-size': `${winnerFontSize}px`, color: `${winnerColor}`, transform: `translate(${winnerTranslateX}px,${winnerTranslateY}px)`}">
-      <div v-if="init" :style="{'font-size': `${initTextFontSize}px`}">{{initText}}</div>
-      <div v-else v-for="(name, index) in select" :key="index">{{ name }}</div>
+    <div class="init" v-if="init" :style="{'font-size': `${initTextFontSize}px`, color: `${winnerColor}`}">{{initText}}</div>
+    <div v-if="!init" class="winner" :style="{'font-size': `${winnerFontSize}px`, color: `${winnerColor}`, transform: `translate(${winnerTranslateX}px,${winnerTranslateY}px)`}">
+      <div v-for="(name, index) in select" :key="index">{{ name }}</div>
     </div>
     <div @click="onSelectClick" class="button" :style="{'background-image': `url(${buttonImage})`, 'font-size': `${buttonFontSize}px`, transform: `translate(${buttonTranslateX}px,${buttonTranslateY}px)`, width: `${buttonWidth}px`, height: `${buttonHeight}px`, 'line-height': `${buttonHeight}px`}">{{init ? buttonText : buttonText2}}</div>
   </div>
@@ -197,9 +197,15 @@ export default {
 }
 .winner {
   display: flex;
+  max-width: 70vw;
+  text-align: center;
+  flex-wrap: wrap;
 }
 .winner > div {
   margin: 10px;
+}
+.init {
+  max-width: 70vw;
 }
 .button {
   background-repeat: no-repeat;
