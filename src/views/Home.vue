@@ -196,6 +196,7 @@ export default {
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  background-position: center;
 }
 .winner {
   display: flex;
