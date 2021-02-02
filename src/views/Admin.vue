@@ -17,9 +17,6 @@
           <el-form-item label="人员名单">
             <el-input v-model="names" type="textarea"></el-input>
           </el-form-item>
-          <el-form-item label="天选之人">
-            <el-input v-model="chosen"></el-input>
-          </el-form-item>
           <el-form-item label="允许重复中奖">
             <el-switch v-model="repeat"></el-switch>
           </el-form-item>
@@ -109,7 +106,6 @@ export default {
     return {
       count: 0,
       names: '',
-      chosen: '',
       repeat: false,
       initText: '',
       initTextFontSize: 100,

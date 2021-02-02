@@ -59,20 +59,9 @@ export default {
       }
       return names;
     },
-    getChosen() {
-      let names = this.chosen.split(',').map(name => name.trim());
-      if (!this.repeat) {
-        const winners = this.getWinners();
-        names = names.filter(name => !winners.includes(name));
-      }
-      return names;
-    },
     roll() {
       const names = this.getNames();
-      const chosen = this.getChosen();
-
-      const all = Array.from(new Set([...names, ...chosen]));
-
+      const all = names;
       if (all.length < this.count) {
         throw '可中奖人数已不足抽取人数';
       }
@@ -88,13 +77,8 @@ export default {
     },
     randomSelect() {
       const names = this.getNames();
-      const chosen = this.getChosen();
 
       const result = [];
-
-      if (chosen.length > 0) {
-        result.push(chosen[Math.floor(Math.random() * chosen.length)]);
-      }
 
       while (result.length < this.count) {
         const select = names[Math.floor(Math.random() * names.length)];
