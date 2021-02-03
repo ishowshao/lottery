@@ -69,6 +69,9 @@ export default {
       return names;
     },
     getChosen() {
+      if (this.chosen.trim() === '') {
+        return [];
+      }
       let names = this.chosen.split(',').map(name => name.trim());
       if (!this.repeat) {
         const winners = this.getWinners();
