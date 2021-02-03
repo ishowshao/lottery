@@ -2,7 +2,7 @@
   <div class="home" :style="{'background-image': `url(${backgroundImage})`}">
     <div v-if="!init" class="init-small" :style="{color: `${winnerColor}`}">{{initText.replace(/\\n/g, '')}}</div>
     <div v-if="init" class="init" :style="{'font-size': `${initTextFontSize}px`, color: `${winnerColor}`}" v-html="initText.replace(/\\n/g, '<br>')"></div>
-    <div v-if="!init" class="winner" :style="{'font-size': `${winnerFontSize}px`, color: `${winnerColor}`, transform: `translate(${winnerTranslateX}px,${winnerTranslateY}px)`}">
+    <div v-if="!init" class="winner" :style="{'font-size': `${autoFontSize}px`, color: `${winnerColor}`, transform: `translate(${winnerTranslateX}px,${winnerTranslateY}px)`}">
       <div v-for="(name, index) in select" :key="index">{{name}}</div>
     </div>
     <div @click="onSelectClick" class="button" :style="{'background-image': `url(${buttonImage})`, 'font-size': `${buttonFontSize}px`, transform: `translate(${buttonTranslateX}px,${buttonTranslateY}px)`, width: `${buttonWidth}px`, height: `${buttonHeight}px`, 'line-height': `${buttonHeight}px`}">{{init ? buttonText : buttonText2}}</div>
@@ -39,6 +39,15 @@ export default {
 
       interval: null,
     };
+  },
+  computed: {
+    autoFontSize() {
+      let size = 40 + (11 - this.count) * 6;
+      if (size < 40) {
+        size = 40;
+      }
+      return size;
+    }
   },
   methods: {
     getWinners() {
